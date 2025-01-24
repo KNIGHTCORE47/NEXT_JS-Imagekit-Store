@@ -14,7 +14,15 @@ export default withAuth(
                 // NOTE - Get user path-name
                 const { pathname } = req.nextUrl
 
-                // NOTE - Check for API routes -- [Authentication routes]
+                // NOTE - Check for API routes 
+
+                // NOTE - Check for [Webhook routes]
+                if (pathname.startsWith('/api/webhook')) {
+                    return true
+                }
+
+
+                // NOTE - Check for [Authentication routes]
                 if (
                     pathname.startsWith('/api/auth') ||
                     pathname === '/login' ||
