@@ -189,10 +189,118 @@ export default function AdminProductForm() {
                                     }
                                 </select>
                             </div>
+
+                            <div
+                                className="form-control"
+                            >
+                                <label className="label">
+                                    License
+                                </label>
+
+                                <select
+                                    className="select select-bordered"
+                                    {...register(`variants.${index}.license`, {
+                                        required: 'License is required'
+                                    })}
+                                >
+                                    <option
+                                        value="personal"
+                                    >
+                                        Personal Use
+                                    </option>
+
+                                    <option
+                                        value="commercial"
+                                    >
+                                        Commercial Use
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div
+                                className="form-control"
+                            >
+                                <label className="label">
+                                    Price ($)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    min="0.01"
+                                    className="input input-bordered"
+                                    {...register(`variants.${index}.price`, {
+                                        valueAsNumber: true,
+                                        required: 'Price is required',
+                                        min: {
+                                            value: 0.01,
+                                            message: 'Price must be greater than 0'
+                                        }
+                                    })}
+                                />
+
+                                {
+                                    errors.variants?.[index]?.price && (
+                                        <span
+                                            className="text-error text-sm mt-1"
+                                        >
+                                            {errors.variants[index]?.price?.message}
+                                        </span>
+                                    )
+                                }
+                            </div>
+
+                            <div
+                                className="flex items-end"
+                            >
+                                <button
+                                    type="button"
+                                    className="btn btn-error btn-sm"
+                                    onClick={() => remove(index)}
+                                    disabled={fields.length === 1}
+                                >
+                                    <Trash2
+                                        className="w-4 h-4"
+                                    />
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 ))
             }
+
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => append({
+                    type: "SQARE" as ImageVariantType,
+                    price: 9.99,
+                    license: "personal"
+                })}
+            >
+                <Plus
+                    className="w-4 h-4"
+                /> Add Variant
+            </button>
+
+            <button
+                type="submit"
+                className="btn btn-primary btn-black"
+                disabled={loading}
+            >
+                {
+                    loading ? (
+                        <>
+                            <Loader2
+                                className="w-4 h-4 animate-spin"
+                            /> Creating Product...
+                        </>
+                    ) : (
+                        'Create Product'
+                    )
+                }
+            </button>
         </form>
     )
 }
