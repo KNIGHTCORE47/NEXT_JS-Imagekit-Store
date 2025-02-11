@@ -1,8 +1,9 @@
 'use client'
 
 import React from "react";
-import { ImageKitProvider, IKImage } from "imagekitio-next";
+import { ImageKitProvider } from "imagekitio-next";
 import { SessionProvider } from 'next-auth/react';
+import { NotificationProvider } from './Notification'
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT!;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
@@ -35,13 +36,15 @@ export default function Providers(
     // NOTE - Return Provider
     return (
         < SessionProvider refetchInterval={5 * 60}>
-            <ImageKitProvider
-                urlEndpoint={urlEndpoint}
-                publicKey={publicKey}
-                authenticator={authenticator}
-            >
-                {children}
-            </ImageKitProvider>
+            <NotificationProvider>
+                <ImageKitProvider
+                    urlEndpoint={urlEndpoint}
+                    publicKey={publicKey}
+                    authenticator={authenticator}
+                >
+                    {children}
+                </ImageKitProvider>
+            </NotificationProvider>
         </SessionProvider>
     );
 }
